@@ -20,7 +20,13 @@ PythonTest runs python tests and shows the output in an output panel. In the pan
 
 Tests may be run individually or in groups.
 
-To run individual tests, in a python unit test module, put a caret in some tests and press <kbd>Ctrl</kbd>-<kbd>c</kbd>,<kbd>.</kbd> to run them. Every test method (or test function) containing a caret point will be run, and only those.
+To run individual tests, in a python unit test module, put your cursor on the line below a test and press <kbd>Ctrl</kbd>-<kbd>c</kbd>,<kbd>.</kbd> to run it.
+Example:
+```
+def test_function():
+    assert 1 == 1
+# <-- put cursor here, then press the above key command
+```
 
 To run all of the tests in a module, ensure the caret is outside of any test method or function and press <kbd>Ctrl</kbd>-<kbd>c</kbd>,<kbd>.</kbd>
 
