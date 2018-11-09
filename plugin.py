@@ -20,6 +20,8 @@ class RunPythonTestCommand(sublime_plugin.TextCommand):
         # turn on language/theme for output panel somehow
         panel = self.view.window().create_output_panel('exec')
         panel.settings().set('color_scheme', self.color_scheme(settings))
+        command += "''"
+        print('Python test command: {}'.format(command))
         self.view.window().run_command(
             "exec", {"cmd": [command],
                      "file_regex": TB_FILE,
@@ -33,22 +35,30 @@ class RunPythonTestCommand(sublime_plugin.TextCommand):
         for opt in self.get_test_options(settings):
             command.append(opt)
         wdir = settings.get('working_dir', self.view.window().folders()[0])
-        for testname in self.get_test_selections(wdir):
+        test_selections = self.get_test_selections(wdir)
+        for testname in test_selections:
             command.append(testname)
-        return ' '.join(command), wdir
+        return ''.join(command), wdir
 
     def get_test_options(self, settings):
         return settings.get('options', [])
 
     def get_test_selections(self, wdir):
         mod = self.file_to_module(wdir, self.view.file_name())
+        if mod.startswith('src'):
+            mod = mod[4:]  # get rid of the src/ at the beginning of the path
         start = 0
         found = False
         for region in self.view.sel():
             tx = self.view.substr(sublime.Region(start, region.begin()))
             test_name = self.find_test_name(tx, region.begin())
             if test_name:
-                yield "%s.%s" % (mod, test_name)
+                first_char = test_name[0]
+                if first_char.isupper():
+                    # This is a test class like TestSomeMethod.test_method
+                    test_name = test_name.replace('.', '::')
+
+                yield "%s.py::%s" % (mod.replace('.', '/'), test_name)
                 found = True
         if not found:
             yield mod
