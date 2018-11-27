@@ -4,9 +4,9 @@ import sublime
 import sublime_plugin
 
 
-SYNTAX = {'unittest': 'Packages/PythonTest/PythonTestOutput.hidden-tmLanguage'}
-SCHEME = {'light': 'Packages/PythonTest/PythonTestOutput.hidden-tmTheme',
-          'dark': 'Packages/PythonTest/PythonTestOutputDark.hidden-tmTheme'}
+SYNTAX = {'unittest': 'Packages/PythonTestST3/PythonTestOutput.hidden-tmLanguage'}
+SCHEME = {'light': 'Packages/PythonTestST3/PythonTestOutput.hidden-tmTheme',
+          'dark': 'Packages/PythonTestST3/PythonTestOutputDark.hidden-tmTheme'}
 TEST_FUNC_RE = re.compile(r'(\s*)def\s+(test_\w+)\s?\(')
 TEST_CASE_RE = re.compile(r'(\s*)class\s+(\w+)')
 TB_FILE = r'[ ]*File \"(...*?)\", line ([0-9]*)'
